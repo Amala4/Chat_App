@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>10/10 Professional Chat Interface</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row" style="flex-wrap: nowrap;">
+      <!-- Sidebar (Desktop) -->
+      <div class="col-1 sidebar">
+        <div class="logo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="40" height="40">
+            <circle cx="100" cy="100" r="95" fill="#0a80ff" />
+            <path d="M60,60h80v60h-20l-20,20v-20H60V60z" fill="white" />
+            <path d="M140,120v-60H60v60h20v20l20-20h40z" fill="none" stroke="white" stroke-width="5" />
+            <circle cx="80" cy="90" r="10" fill="white" />
+            <circle cx="100" cy="90" r="10" fill="white" />
+            <circle cx="120" cy="90" r="10" fill="white" />
+            <text x="100" y="170" font-size="20" font-family="Arial, sans-serif" font-weight="bold" fill="white" text-anchor="middle">
+              Logo
+            </text>
+          </svg>
+        </div>
+        <a hx-get="{% url 'chat_list' %}" hx-target="#sidebar-group">
+            <div class="icon"><i class="fas fa-comment-alt"></i></div>
+        </a>
+
+        <a hx-get="{% url 'user_list' %}" hx-target="#sidebar-group">
+            <div class="icon"><i class="fas fa-users"></i></div>
+        </a>
+
+        <form class="icon logout" method="POST" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="icon" style="border: none; background: none;">
+              <i class="fas fa-sign-out-alt"></i>
+          </button>
+        </form>
+
+      </div>
+      <!-- Sidebar (Desktop) -->
+
+
+      <!-- Userlist/Chatlist -->
+      <div class="col-3 users-list" id="sidebar-group">
+
+        {% include 'chats/chat_list.html' %}
+      </div>
+      <!-- Userlist/Chatlist -->
+
+
+      <!-- Chat Interface -->
+      <div class="col-8 chat-interface" id="chat-window">
+        <div class="no-message-container">
+            <div class="row mb-5">
+                <div class="col-md-4 offset-4">
+                    <img src="{% static 'images/undraw_empty_xct9.svg' %}" class="img-fluid" alt="image">
+                </div>
+            </div>
+            <p class="lead">Select a chat to read messages or go to user list and start a new chat.</p>
+        </div>
+
+      </div>
+      <!-- Chat Interface -->
+
+    <!-- Mobile Navigation Bar -->
+    <div class="mobile-nav">
+        <a hx-get="{% url 'chat_list' %}" hx-target="#sidebar-group">
+            <div class="nav-item">
+                <i class="fas fa-comment-alt"></i>
+                <span>Chats</span>
+            </div>
+        </a>
+        <a hx-get="{% url 'user_list' %}" hx-target="#sidebar-group">
+            <div class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
+            </div>
+        </a>
+        <form class="icon logout" method="POST" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="nav-item" style="border: none; background: none;">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Logout</span>
+          </button>
+        </form>
+    </div>
+
+
+    </div>
+  </div>
+
+
+  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+  <script src="https://unpkg.com/htmx-ext-sse@2.2.2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const sidebar = document.getElementById("sidebar-group");
+        const chatInterface = document.getElementById("chat-window");
+        let resizeTimeout;
+
+        // For Layout moobile responsiveness
+        document.body.addEventListener("htmx:afterSwap", function (event) {
+          if (window.innerWidth <= 767.98 ) {
+            if (event.detail.elt.id === "chat-window") {
+              if (sidebar && chatInterface) {
+                sidebar.style.display = "none";
+                chatInterface.style.display = "flex";
+              }
+            }
+ 
+            if (event.detail.elt.id === "sidebar-group") {
+                if (sidebar && chatInterface) {
+                    sidebar.style.display = "block";
+                  chatInterface.style.display = "none";
+                }
+            }
+
+        }
+
+
+        });
+
+
+        window.addEventListener('resize', function () {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(function () {
+                if (window.innerWidth > 767.98 && sidebar && chatInterface) {
+                    sidebar.style.display = "block";
+                    chatInterface.style.display = "flex";
+                }
+            }, 500);
+
+        });
+        
+       
+
+        // Ensures scroll to latest chats on initial load
+        document.body.addEventListener("htmx:afterSwap", function (event) {
+            if (event.detail.elt.id === "chat-window") {
+                setTimeout(() => {
+                    var messagesDiv = document.getElementById("messages");
+                    if (messagesDiv) {
+                        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                    }
+                }, 20);
+            }
+        });
+        
+    });
+
+  </script>
+
+</body>
+</html>

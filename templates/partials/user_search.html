@@ -1,0 +1,16 @@
+
+<!-- Users Search -->
+{% for user in user_list %}
+    <a hx-get="{% url 'conversation' user.id %}" 
+        hx-target="#chat-window"
+        hx-swap="innerHTML scroll:bottom"
+    >
+
+        <div class="user-item">
+            <img src="https://bootdey.com/img/Content/avatar/avatar{{ user.id }}.png" alt="Profile Pic">
+            <span class="name">{{ user.username }}</span>
+        </div>
+    </a>
+{% endfor %}
+
+<!-- Users Search -->

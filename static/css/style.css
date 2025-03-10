@@ -1,0 +1,169 @@
+body {
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    background-color: #f8f9fa;
+  }
+  .sidebar {
+    background-color: #ffffff;
+    height: 100vh;
+    padding: 20px;
+    border-right: 1px solid #e9ecef;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+    width: 80px; /* Narrower sidebar */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center icons horizontally */
+  }
+  .sidebar .logo {
+    font-size: 24px;
+    font-weight: 600;
+    color: #0a80ff;
+    margin-bottom: 30px;
+  }
+  .sidebar .icon {
+    font-size: 20px;
+    margin-bottom: 25px;
+    color: #0a80ff; /* Blue color for icons */
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .sidebar .icon:hover {
+    color: #0066cc; /* Darker blue on hover */
+  }
+  .sidebar .logout {
+    position: absolute;
+    bottom: 30px;
+    color: #0a80ff; /* Blue color for logout icon */
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .sidebar .logout:hover {
+    color: #0066cc; /* Darker blue on hover */
+  }
+  .users-list {
+    background-color: #ffffff;
+    height: 100vh;
+    padding: 20px;
+    border-right: 1px solid #e9ecef;
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
+  .users-list .title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  .users-list .search-box {
+    margin-bottom: 20px;
+  }
+  .users-list .search-box input {
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #e9ecef;
+    width: 100%;
+  }
+  .users-list .user-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  .users-list .user-item:hover {
+    background-color: #f8f9fa;
+  }
+  .users-list .user-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  .users-list .user-item .name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+  }
+  .chat-interface {
+    background-color: #ffffff;
+    height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  .chat-interface .chat-header {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e9ecef;
+  }
+  .chat-interface .messages {
+    flex: 1;
+    overflow-y: auto; /* Enable vertical scrolling */
+    margin-bottom: 20px;
+    padding-right: 10px;
+  }
+  .chat-interface .message {
+    margin-bottom: 15px;
+    display: flex;
+  }
+  .chat-interface .message.received {
+    justify-content: flex-start;
+  }
+  .chat-interface .message.sent {
+    justify-content: flex-end;
+  }
+  .chat-interface .message .content {
+    max-width: 70%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  .chat-interface .message.received .content {
+    background-color: #f1f1f1;
+    color: #333;
+  }
+  .chat-interface .message.sent .content {
+    background-color: #0a80ff;
+    color: #fff;
+  }
+  .chat-interface .message .timestamp {
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  .chat-interface .message.received .timestamp {
+    color: #888; /* Dark gray for received messages */
+  }
+  .chat-interface .message.sent .timestamp {
+    color: #e0e0e0; /* Light gray for sent messages */
+  }
+  .chat-interface .input-box {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #ffffff;
+    border-top: 1px solid #e9ecef;
+  }
+  .chat-interface .input-box input {
+    flex: 1;
+    margin-right: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+  }
+  .chat-interface .input-box button {
+    background-color: #0a80ff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  .chat-interface .input-box button:hover {
+    background-color: #0066cc;
+  }

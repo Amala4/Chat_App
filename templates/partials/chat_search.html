@@ -1,0 +1,20 @@
+<div id="chat-list">
+    {% for chat in chat_list %}
+        <a hx-get="{% url 'conversation' chat.other_user.id %}" 
+            hx-target="#chat-window"
+            hx-swap="innerHTML scroll:bottom"
+        >
+    
+            <div class="user-item">
+                <img src="https://bootdey.com/img/Content/avatar/avatar{{ chat.other_user.id }}.png" alt="Profile Pic">
+                <div class="user-details">
+                    <span class="name">{{ chat.other_user.username }}</span>
+                    <div class="message-preview">
+                        <span class="preview-text">{{ chat.latest_message.content|truncatechars:20 }}</span>
+                        <span class="timestamp">{{ chat.latest_message_timestamp |time }}</span>
+                    </div>
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+</div>
