@@ -3,10 +3,10 @@ version: '3.8'
 services:
   web:
     build: .
-    command: gunicorn --bind 0.0.0.0:7000 jbl_chat.wsgi:application --workers 5 --threads 3 --timeout 300
+    command: gunicorn --bind 0.0.0.0:8000 jbl_chat.wsgi:application --workers 5 --threads 3 --timeout 300
     volumes:
       - .:/code
     ports:
-      - "7000:7000"
+      - "8000:8000"
     environment:
       - DJANGO_SETTINGS_MODULE=jbl_chat.settings
