@@ -263,6 +263,7 @@ def message_stream(request, user_id):
     response_server = StreamingHttpResponse(event_stream(), content_type='text/event-stream')
     response_server['Cache-Control'] = 'no-cache'  
     response_server["X-Accel-Buffering"] = "no" 
+    response_server["Connection"] = "keep-alive" 
     return response_server
 
 
