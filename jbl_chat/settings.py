@@ -8,8 +8,13 @@ SECRET_KEY = 'django-insecure-(258e=*mmkc&ilwz_=cokrm9d!+z66nn_eoyw*u#@yv@e$2*zi
 # DEBUG = True
 DEBUG = False
 
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "chatapp-production-f12b.up.railway.app"]
-CSRF_TRUSTED_ORIGINS = ["https://chatapp-production-f12b.up.railway.app", "http://chatapp-production-f12b.up.railway.app"]
+
+if not DEBUG:
+    CSRF_COOKIE_SECURE = True  
+    SESSION_COOKIE_SECURE = True
+    ALLOWED_HOSTS = ['*']
+    CSRF_TRUSTED_ORIGINS = ["https://xaympsmypb.eu-central-1.awsapprunner.com", "http://xaympsmypb.eu-central-1.awsapprunner.com"]
+
 
 # Application definition
 
