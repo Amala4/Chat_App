@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+  web:
+    build: .
+    command: gunicorn --bind 0.0.0.0:8000 jbl_chat.wsgi:application
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=jbl_chat.settings
