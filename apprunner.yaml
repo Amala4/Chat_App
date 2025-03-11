@@ -1,8 +1,5 @@
 version: 1.0
-
-runtime:
-  cpu: 1 vCPU       
-  memory: 2 GB      
+     
 
 build:
   dockerfile: Dockerfile   
@@ -17,3 +14,8 @@ run:
 
 auto_deploy:
   enabled: true   
+
+
+
+
+
