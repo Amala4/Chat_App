@@ -212,7 +212,7 @@ class SendMessageAPIView(generics.CreateAPIView):
 def message_stream(request, user_id):
     def event_stream():
         last_timestamp = timezone.now()
-        timeout = 240  
+        timeout = 80  
         last_activity = timezone.now()
         chat = Chat.objects.filter(participants=request.user).filter(participants=user_id).first()
 
