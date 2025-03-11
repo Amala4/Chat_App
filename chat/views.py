@@ -14,7 +14,6 @@ from django.contrib.auth.decorators import login_required
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
-from rest_framework.views import APIView
 
 # Local imports
 from .models import Message, Chat
@@ -215,37 +214,41 @@ def message_stream(request, user_id):
         last_timestamp = timezone.now()
         timeout = 240  
         last_activity = timezone.now()
+        chat = Chat.objects.filter(participants=request.user).filter(participants=user_id).first()
 
         while True:
-            new_messages = Message.objects.filter(
-                sender__in=[request.user, user_id],
-                receiver__in=[request.user, user_id],
-                timestamp__gt=last_timestamp
-            ).order_by("timestamp")
+            new_messages = chat.get_latest_messages(last_timestamp)
+            new_messages_list = list(new_messages)
+
 
             if new_messages:
-                last_timestamp = new_messages[len(new_messages) - 1].timestamp
-                
-                received_messages = new_messages.filter(
-                    sender=user_id,
-                    receiver=request.user
+                received_messages = sorted(
+                    [msg for msg in new_messages_list if msg.sender_id == user_id and msg.receiver_id == request.user.id],
+                    key=lambda msg: msg.timestamp
                 )
 
-                for latest_message in received_messages:
-                    formatted_time = latest_message.timestamp.strftime("%B %d, %Y, %I:%M %p").replace(" 0", " ").lower().replace("am", "a.m.").replace("pm", "p.m.")
-                    html_message = (
-                        f'<div class="message received">'
-                        f'<div class="content">'
-                        f'<div class="text">{latest_message.content}</div>'
-                        f'<div class="timestamp">{formatted_time}</div>'
-                        f'</div>'
-                        f'</div>'
-                    )
-                    yield f"event: message\ndata: {html_message}\n\n"
 
+                if received_messages:
+                    for latest_message in received_messages:
+                        formatted_time = latest_message.timestamp.strftime("%B %d, %Y, %I:%M %p").replace(" 0", " ").lower().replace("am", "a.m.").replace("pm", "p.m.")
+                        html_message = (
+                            f'<div class="message received">'
+                            f'<div class="content">'
+                            f'<div class="text">{latest_message.content}</div>'
+                            f'<div class="timestamp">{formatted_time}</div>'
+                            f'</div>'
+                            f'</div>'
+                        )
+                        yield f"event: message\ndata: {html_message}\n\n"
+                  
+                    last_timestamp = received_messages[len(received_messages) - 1].timestamp
+
+                else:
+                    last_timestamp = timezone.now()
 
                 # Update last activity time
                 last_activity = timezone.now()
+                
             else:
                 if (timezone.now() - last_activity).total_seconds() > timeout:
 

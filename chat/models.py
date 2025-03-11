@@ -10,6 +10,11 @@ class Chat(models.Model):
     def __str__(self):
         return "Chat between users"
 
+    def get_latest_messages(self, timestamp):
+        return self.messages.filter(
+            timestamp__gt=timestamp
+        )
+
 
 class Message(models.Model):
     chat = models.ForeignKey(Chat, on_delete=models.CASCADE, null=True, related_name="messages")
