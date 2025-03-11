@@ -1,0 +1,19 @@
+version: 1.0
+
+runtime:
+  cpu: 1 vCPU       
+  memory: 2 GB      
+
+build:
+  dockerfile: Dockerfile   
+  port: 8000              
+
+  environment_variables:
+    - name: DJANGO_SETTINGS_MODULE
+      value: jbl_chat.settings   
+
+run:
+  command: gunicorn jbl_chat.wsgi:application --bind 0.0.0.0:8000 --workers 5 --threads 3 --timeout 300
+
+auto_deploy:
+  enabled: true   
